@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<h1 class="text-center" id="navMargin">DERSLER</h1>
+{% endblock %}
+
+{% block content %}
+
+{% if wine_list %}
+<div class="row row-list">
+  {% for wine in wine_list %}
+    <div class="col-xs-6 col-lg-4 col-sm-4 col-md-4" style="height: 200px; border-bottom: 2px dotted #ccc; padding: 30px 0 0 0;">
+        <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-5 col-xs-offset-1 col-lg-3 col-lg-offset-1">
+          {% if temp1 == wine.poster_path or temp2 == wine.poster_path %}
+            {% load static %}
+            <img class="img-thumbnail img-responsive" src="{% static '/download.png' %}" alt="image" style="height: 60px">
+          {% else %}
+            <img class="img-thumbnail img-responsive" src="{{ wine.poster_path }}">
+          {% endif %}
+        </div>
+        <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6" style="padding: 0; height: 100%">
+          <h4><a href="{% url 'reviews:wine_detail' wine.id %}">
+          {{ wine.name }}
+          </a></h4>
+          <h5>{{ wine.review_set.count }} reviews</h5>
+          <h5>{{ wine.average_rating | floatformat }} Puanlama Ortalaması</h5>
+        </div>
+    </div>
+
+  {% endfor %}
+</div>
+
+<nav aria-label="Page navigation" class="active text-center" style="padding: 30px">
+  <ul class="pagination">
+    {% if wine_list.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">begin</span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% for n in wine_list.paginator.page_range %}
+      {% if wine_list.number == n %}
+      <li class="page-item active">
+        <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+      </li>
+      {% elif n > wine_list.number|add:'-3' and n < wine_list.number|add:'3' %}
+      <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if wine_list.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ wine_list.paginator.num_pages }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">end</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% else %}
+    <p>No wines are available.</p>
+{% endif %}
+{% endblock %}

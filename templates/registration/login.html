@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+
+{% block title %}
+<h2 id="navMargin" class="text-center">Giriş</h2>
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+  <p class="error"> Şifre veya kullanıcı adını yanlış giriş yaptınız.</p>
+{% endif %}
+<form action="{% url 'auth:login' %}" method="post" class="form text-center">
+    {% csrf_token %}
+    {% bootstrap_form form layout='inline' %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "user" %} Giriş
+    </button>
+    {% endbuttons %}
+</form>
+{% endblock %}

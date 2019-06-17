@@ -1,0 +1,10 @@
+{% extends 'reviews/wine_list.html' %}
+
+{% block title %}
+{% if error %}
+<div class="alert alert-warning" style="padding-top: 50px; font-size: 14px;">
+ 	<p class="lead"><strong>Uyarı</strong> {{ error }}</p>
+</div>
+{% endif %}
+<h2 class="text-center" id="navMargin">Bu dersleri de izleyebilirsiniz {{ username }}</h2>
+{% endblock %}

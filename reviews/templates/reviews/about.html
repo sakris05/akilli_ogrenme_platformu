@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<h2 class="text-center" id="navMargin">Hakkımızda</h2>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid" style="padding: 30px;">
+	<p class="lead text-justify" style="font-size: 16px;">
+		<img class="img-responsive" src="{% static '/pencil.png' %}" alt="@" style="height: 100%; padding-left: 10px; padding-bottom: 10px; float: right;">
+		Bu çalışma Uyarlanabilir Sistemler dersi bitirme ödevi için geliştirilmiştit. Çalışmada amaç Akıllı Öğrenme Platformu aracılığıyla öğrenenlere kullanıcı alanlarına göre İşbirlikli Filtreleme teknikleri kullanılarak önerilerde bulunmaktır.
+		<br>
+        Tekil Değer Ayrışımı, bilim ve teknolojinin çeşitli alanlarında kullanılan bir matris faktoring yöntemidir. Ayrıca, son zamanlarda makine öğrenmesi, veri madenciliği ve teorik bilgisayar bilimlerindeki büyük gelişmeler nedeniyle, SVD giderek daha önemli hale gelmiştir.<br>
+		<em>Matris Faktörleşmesi: Bir matrisin bir matris ürününe temsilidir.</em>
+		<br><br>
+		<strong>SVD arkasındaki matematiksel yapı</strong><br>
+		Bir mxn matrisi (M) için, M formunun bir tekil değer ayrışımı vardır:
+		M = UΣV<sup>T</sup><br>
+		Bunlar
+		<ul>
+			<li>U, bir mx k birim matrikstir. (sol tekil vektör)</li>
+			<li>Σ, negatif olmayan reel sayıları olan bir kx k köşegen matrisidir.</li>
+			<li>V, kxn üniter bir matristir. (sağ tekil vektör)</li>
+			<li>V<sup>T</sup> "n × n" üniter matrisin eşlenik devridir.</li>
+			<li>Σ'nın köşegen değerleri, M'nin Tekil değerleri (tam olarak 'k') olarak bilinir.</li>
+		</ul>
+		<em>Conjugate Transpose</em>: Bir matrisin eşlenik devri, her eleman için satır ve sütun indeksini değiştirir.<br>
+		<em>Kimlik matrisi</em>: Ana köşegenin tüm öğelerinin sıfır olduğu ve tüm diğer öğelerin sıfır olduğu kare bir matristir.<br>
+		<em>Diyagonal matris</em>: Ana köşegen dışındaki girişlerin sıfır olduğu bir matristir.<br>
+		<em>Üniter matris</em>: Konjugat transpoze olan matrisler de tersidir, bu UU<sup>T</sup>=I.<br>
+		<em>Tekil Değerler</em>: Temel olarak, X'in bir matris olduğu "XX <sup> T </sup>" özdeğerlerinin karekökü anlamına gelir.
+	</p>
+	<p class="lead text-justify" style="font-size: 16px;">
+		<br>
+        <strong> Boyutsal küçülme </strong> <br>
+        Veri kümelerini temsil etmenin yaygın bir yolu, bir öznitelikteki vektörler gibidir. Örneğin, her boyutun bir film olmasına izin verirsek, kullanıcıları nokta olarak temsil edebiliriz. Bunu üçten fazla boyutta görselleştirememize rağmen, fikir herhangi bir sayıda boyut için işe yarar.
+        Bu ortamda sorulması gereken doğal bir soru, verileri temsil etmemiz gereken boyut sayısını azaltmanın mümkün olup olmadığıdır. Örneğin, Matematik I’i seven her kullanıcı Matematik II'den hoşlanıyorsa, toplayıcı bir ders veya özellik oluşturmak için onları bir araya toplayabiliriz. Daha sonra iki dersi, tek tek filmler yerine farklı özellikler için derecelendirmelerine bakarak karşılaştırabiliriz. <br>
+        Bunu yapmak istememizin birkaç nedeni var. Birincisi ölçeklenebilirlik. 17.000 ders içeren bir veri kümemiz varsa, her kullanıcı 17.000 koordinattan oluşan bir vektördür ve bu, kullanıcıları nispeten yavaş ve bellek yoğun biçimde depolamayı ve karşılaştırmayı sağlar. Bununla birlikte, daha az sayıda boyut kullanmanın aslında tahmin doğruluğunu iyileştirebileceği ortaya çıktı. Örneğin, ikisinin de matematik seven iki kullanıcımız olduğunu varsayalım. Bir kullanıcı <em> Matematik I </em> 'i ve diğeri <em> Lineer Cebir </em>' e yüksek puan verdiyse, kullanıcıların benzer olduğunu söylemek mantıklı olur. Bununla birlikte, kullanıcıları ayrı ayrı derslere göre karşılaştırırsak, yalnızca her iki kullanıcının da derecelendirdiği dersler benzerliklerini etkiler. Bu aşırı bir örnektir, ancak mutlaka karşılaştırılması gereken çeşitli sınıflar olduğunu hayal edebiliyorum. <br> <br>
+        <b> Boyutluluk Azaltma ve Tekil Değer Ayrışması: - </b> <br>
+        "Σ" matrisi, M matrisinin tekil değerlerini içeren çapraz bir matristir. Tam olarak 'k' tekil değerleri vardır, burada k, M'nin rütbesidir. Bir matrisin <em> sırası </em> sayıdır Matris içinde doğrusal olarak bağımsız satır veya sütunların listesi. Uzaydaki diğer herhangi bir vektörün toplamı veya skalar katı olarak yazılamıyorsa, iki vektörün doğrusal olarak bağımsız olduğunu hatırlayın. Doğrusal bağımsızlığın bir şekilde elde etmeye çalıştığımız özellik veya aglomeratif madde kavramını yakaladığını gözlemleyin. Önceki örneğimize geri dönmek gerekirse, <em> Matematik I </em> 'i seven her kullanıcı Matematik II'yi de sevdiyse, iki ders vektörü doğrusal olarak bağımlı olacaktır ve yalnızca bir taneye katkısı olacaktır. <br>
+        Ancak daha fazlasını yapabiliriz. Birini beğenen çoğu diğerinden de hoşlanıyorsa, dersleri gerçekten karşılaştırmak istiyoruz. Bunu başarmak için ilk "r" tekil değerlerini "r" <"k" olan "Σ" da tutabiliriz. Bu, bize X'e en iyi rütbe yaklaşımını verecek ve böylece orijinal alanımızın boyutsallığını etkili bir şekilde azaltacaktır. <br>
+        Böylece, "Σ" şimdi "rxr" boyutuna sahip olacaktır. </p>
+	<blockquote style="padding: 30px;">
+		<p class="text-muted lead">Kaynakça: <small>
+			<a href="http://www.cs.carleton.edu/cs_comps/0607/recommend/recommender/svd.html" target="_blank">
+				Dimensionality Reduction and the Singular Value Decomposition
+			</a></small></p>
+	</blockquote>
+</div>
+
+{% endblock %}

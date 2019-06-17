@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+
+<script type="text/javascript">
+    $(window).on('load', function() {      //Do the code in the {}s when the window has loaded 
+        $("#loader").fadeOut("fast");  //Fade out the #loader div
+    });
+</script>
+
+<div id="loader">
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+            <span class="sr-only">% 70 tamamlandı.</span>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="border-bottom: 2px solid #ccc; padding-bottom: 30px; padding-top: 50px;" id="center-text">
+    <div class="text-center col-md-6 col-xs-12 col-lg-6" id="img-tile">
+        {% if temp1 == wine.poster_path or temp2 == wine.poster_path %}
+            {% load static %}
+            <img class="img-thumbnail img-responsive" src="{% static '/download.png' %}" alt="image" style="height: 60%">
+        {% else %}
+            <img class="img-responsive img-fluid img-thumbnail" src="{{ wine.poster_path }}" alt="image not found" style="height: 90%; width: 50%">
+        {% endif %}
+    </div>
+    <div class="col-md-6 col-xs-12 col-lg-6">
+        <h2 class="text-uppercase">{{ wine.name }}</h2>
+        <h4><u><i><b>İlgili Disiplinler</b></i></u>: |{{ wine.genres }}</h4>
+        <h4>Yorum Sayısı: {{ wine.review_set.count }} | Ortalama Puan: {{ wine.average_rating | floatformat }}</h4>
+        {% if temp1 == movie_info.YouTube_URL %}
+            <h4 class="alert alert-warning" id="trailer_borders">İçerik bulunamadı</h4>
+        {% else %}
+            <a href="{{ movie_info.YouTube_URL }}" target="_blank">
+                <h4 class="alert alert-success" id="trailer_borders">{{ wine.name }} Derse gitmek için tıklayın.</h4>
+            </a>
+        {% endif %}
+    </div>
+</div>
+<div class="row" style="border-bottom: 2px solid #ccc; padding: 20px;" id="fontSize">
+    <p class="text-justify lead"><u><b><i>Özet</i></b></u>: {{ movie_info.overview }}</p>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center">Değerlendir</h2>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if user_name in wine.review_set.all.user_name %}
+    <p><strong>Daha önce değerlendirdiniz. Yeniden değerlendirmek ister misiniz?</strong></p>
+{% endif %}
+
+<form class="text-center" style="padding: 20px 0" action="{% url 'reviews:add_review' wine.id %}" method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form layout='inline' %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "star" %} Puanla
+    </button>
+    {% endbuttons %}
+</form>
+
+<h3 class="text-center" style="border-top: 2px solid #bbb; padding: 40px 0">Geçmiş Değerlendirmeleriniz</h3>
+
+{% if wine.review_set.all %}
+<div class="row text-center" style="padding-bottom: 30px">
+    {% for review in wine.review_set.all|dictsortreversed:"pub_date" %}
+    <div class="col-xs-6 col-lg-4">
+        <em>{{ review.comment }}</em>
+        <h6>Rated {{ review.rating }} of 5 by {{ review.user_name }}</h6>
+        <h5><a href="{% url 'reviews:review_detail' review.id %}">
+        Read more
+        </a></h5>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% else %}
+<p>Bu ders için henüz bir değerlendirme yapılmamıştır.</p>
+{% endif %}
+
+{% endblock %}
