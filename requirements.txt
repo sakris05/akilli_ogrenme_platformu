@@ -25,7 +25,7 @@ gunicorn==19.7.1
 Cython
 h5py
 heapdict==1.0.0
-html5lib==0.9999999
+html5lib==0.99999999
 IMDbPY==6.5
 ipython==6.2.1
 ipython-genutils==0.2.0
